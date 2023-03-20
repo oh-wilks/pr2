@@ -40,6 +40,7 @@ const mostrarUsuarios = () => {
         <td>
         <button
         type="button"
+        title="Editar"
         class="btn btn-info"
         onclick="editarUsuario('${usuario.id}')"
         >
@@ -50,6 +51,7 @@ const mostrarUsuarios = () => {
         </svg>
         </button>
         <button
+        title="Eliminar"
         type="button"
         class="btn btn-danger"
         onclick="eliminarUsuario('${usuario.id}')"
