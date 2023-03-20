@@ -34,7 +34,8 @@ const mostrarUsuarios = () => {
     counter ++;
     cuerpoTabla.innerHTML += `<tr>
         <td>${counter}</td>
-        <td>${usuario.id}</td>
+        <td
+        class="text-field">${usuario.id}</td>
         <td>${usuario.nombre}</td>
         <td>${usuario.apellido}</td>
         <td>

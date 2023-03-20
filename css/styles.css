@@ -12,3 +12,10 @@
 			color: #fff;
 			text-align: center;
 }
+
+.text-field {
+	max-width: 100px; 
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+  }
