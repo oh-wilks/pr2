@@ -3,6 +3,9 @@ const apellido = document.getElementById("apellidoInput");
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 const cuerpoTabla = document.getElementById("cuerpoTabla");
 
+
+
+//add user 
 const agregarUsuario = () => {
     if (nombre.value.trim() === "" || apellido.value.trim() === "") {
       alert("Por favor ingrese un nombre y un apellido para el usuario.");
@@ -21,12 +24,16 @@ const agregarUsuario = () => {
     mostrarUsuarios();
   };
   
-  
+
+  //show records function
 
 const mostrarUsuarios = () => {
   cuerpoTabla.innerHTML = "";
+  let counter = 0;
   usuarios.forEach((usuario) => {
+    counter ++;
     cuerpoTabla.innerHTML += `<tr>
+        <td>${counter}</td>
         <td>${usuario.id}</td>
         <td>${usuario.nombre}</td>
         <td>${usuario.apellido}</td>
@@ -54,10 +61,15 @@ const mostrarUsuarios = () => {
         </svg>
         </button>
         </td>
+        <td>
+          <input type="checkbox" name="seleccionarUsuario" value="${usuario.id}">
+        </td>
       </tr>`;
   });
 };
 
+
+// delete function 
 const eliminarUsuario = (id) => {
   const confirmacion = confirm(
     "¿Está seguro de que desea eliminar este usuario?"
@@ -68,3 +80,22 @@ const eliminarUsuario = (id) => {
     mostrarUsuarios();
   }
 };
+
+// update user name and last name with prompt, not ideal
+
+const editarUsuario = (id) => {
+    const usuario = usuarios.find((u) => u.id === id);
+  
+    if (usuario) {
+      const nuevoNombre = prompt("Ingrese el nuevo nombre del usuario", usuario.nombre);
+      const nuevoApellido = prompt("Ingrese el nuevo apellido del usuario", usuario.apellido);
+  
+      if (nuevoNombre && nuevoApellido) {
+        usuario.nombre = nuevoNombre;
+        usuario.apellido = nuevoApellido;
+  
+        localStorage.setItem("usuarios", JSON.stringify(usuarios));
+        mostrarUsuarios();
+      }
+    }
+  };
