@@ -76,7 +76,7 @@ const mostrarUsuarios = () => {
 
 
 //show function at window loading
-window.addEventListener("load", mostrarUsuarios())
+window.addEventListener("load", mostrarUsuarios() )
 
 // delete function 
 const eliminarUsuario = (id) => {
@@ -108,3 +108,23 @@ const editarUsuario = (id) => {
       }
     }
   };
+
+
+//sticky footer function
+
+function isScrolledToBottom() {
+  const scrollTop = document.documentElement.scrollTop;
+  const scrollHeight = document.documentElement.scrollHeight;
+  const clientHeight = document.documentElement.clientHeight;
+  return scrollTop + clientHeight >= scrollHeight;
+}
+
+const footer = document.querySelector('.sticky-footer');
+
+window.addEventListener('scroll', () => {
+  if (isScrolledToBottom()) {
+    footer.style.display = 'block';
+  } else {
+    footer.style.display = 'none';
+  }
+});

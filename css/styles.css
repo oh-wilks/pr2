@@ -4,14 +4,17 @@
 }
 
 #footer {
-    position: fixed;
+	color: white;
+	display: flex;
+	align-items: center;
+	background-color: rgba(131, 131, 131, 0.7);
+	text-align: center;
+	position: fixed;
 			left: 0;
 			bottom: 0;
 			width: 100%;
-			background-color: #1c1c1c;
-			color: #fff;
-			text-align: center;
-}
+	
+  }
 
 .text-field {
 	max-width: 100px; 
