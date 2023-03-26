@@ -6,19 +6,31 @@ const idInput = document.getElementById("idInput");
 
 const btnAgregar = document.getElementById("btnAgregar");
 const btnEditar = document.getElementById("btnEditar");
+
 // check empty fields 
 const checkEmpty = () => {
   if (nombre.value.trim() === "" || apellido.value.trim() === "") {
     alert("Por favor ingrese un nombre y un apellido para el usuario.");
-    return;
+    return true; 
   }
+  return false; 
+}
+
+// focus on first field "first name" 
+
+function focusInput() {
+  var input = document.getElementById("nombreInput");
+  input.focus();
+  input.select();
 }
 
 
 
 //add user
 const agregarUsuario = () => {
-  checkEmpty()
+  if (checkEmpty()){
+    return;
+  }
 
   const usuario = {
     id: crypto.randomUUID(),
@@ -176,6 +188,7 @@ const downloadTableAsCSV = () => {
 // //segunda funcion edicion
 
 const editarUsuario = (id) => {
+
   btnAgregar.style.display = "none";
   btnEditar.style.display = "inline";
 
@@ -183,11 +196,13 @@ const editarUsuario = (id) => {
   idInput.value = usuario.id;
   nombre.value = usuario.nombre;
   apellido.value = usuario.apellido;
+  focusInput();
 };
 
 const confirmarEdicion = () => {
-  checkEmpty()
-
+  if (checkEmpty()){
+    return;
+  }
   const usuario = usuarios.find((usuario) => usuario.id === idInput.value);
   usuario.nombre = nombre.value;
   usuario.apellido = apellido.value;

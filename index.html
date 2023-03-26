@@ -106,8 +106,22 @@
     </div>
     <div class="container mt-5">
       <section class="row">
-        <article class="col">
-          <form>
+        <article  class="col">
+          <form id="formulario" class="row g-3 needs-validation" novalidate>
+            <div class="col-md-4">
+              <label for="nombreInput" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="nombreInput" required>
+              <div class="valid-feedback">
+                Luce Bien!
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label for="apellidoInput" class="form-label">Apellido</label>
+              <input type="text" class="form-control" id="apellidoInput"  required>
+              <div class="valid-feedback">
+                Luce Bien!
+              </div>
+            </div>
             <div class="mb-3">
               <label for="idInput" class="form-label"></label>
               <input
@@ -118,7 +132,7 @@
                 disabled
                 style="display: none"              />
             </div>
-            <div class="mb-3">
+            <!-- <div class="mb-3">
               <label for="nombreInput" class="form-label">Nombre</label>
               <input
                 type="text"
@@ -136,12 +150,12 @@
                 id="apellidoInput"
                 autocomplete="off"
               />
-            </div>
+            </div> -->
             <div class="container-mt-5">
               <button
                 id="btnAgregar"
                 title="Agregar Usuario"
-                type="button"
+                type="submit"
                 class="btn btn-success"
                 onclick="agregarUsuario()"
               >
