@@ -13,11 +13,10 @@
 			left: 0;
 			bottom: 0;
 			width: 100%;
-	
   }
 
 .text-field {
-	max-width: 100px; 
+	max-width: 50px; 
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;

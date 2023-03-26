@@ -2,38 +2,38 @@ const nombre = document.getElementById("nombreInput");
 const apellido = document.getElementById("apellidoInput");
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 const cuerpoTabla = document.getElementById("cuerpoTabla");
+const idInput = document.getElementById("idInput");
 
+const btnAgregar = document.getElementById("btnAgregar");
+const btnEditar = document.getElementById("btnEditar");
 
-
-//add user 
+//add user
 const agregarUsuario = () => {
-    if (nombre.value.trim() === "" || apellido.value.trim() === "") {
-      alert("Por favor ingrese un nombre y un apellido para el usuario.");
-      return;
-    }
-  
-    const usuario = {
-      id: crypto.randomUUID(),
-      nombre: nombre.value,
-      apellido: apellido.value,
-    };
-  
-    usuarios.push(usuario);
-  
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
-    nombre.value = "";
-    apellido.value = "";
-    mostrarUsuarios();
+  if (nombre.value.trim() === "" || apellido.value.trim() === "") {
+    alert("Por favor ingrese un nombre y un apellido para el usuario.");
+    return;
+  }
+
+  const usuario = {
+    id: crypto.randomUUID(),
+    nombre: nombre.value,
+    apellido: apellido.value,
   };
-  
 
-  //show records function
+  usuarios.push(usuario);
 
+  localStorage.setItem("usuarios", JSON.stringify(usuarios));
+  nombre.value = "";
+  apellido.value = "";
+  mostrarUsuarios();
+};
+
+//show records function
 const mostrarUsuarios = () => {
   cuerpoTabla.innerHTML = "";
   let counter = 0;
   usuarios.forEach((usuario) => {
-    counter ++;
+    counter++;
     cuerpoTabla.innerHTML += `<tr>
         <td>${counter}</td>
         <td
@@ -76,11 +76,10 @@ const mostrarUsuarios = () => {
   });
 };
 
-
 //show function at window loading
-window.addEventListener("load", mostrarUsuarios() )
+window.addEventListener("load", mostrarUsuarios());
 
-// delete function 
+// delete function
 const eliminarUsuario = (id) => {
   const confirmacion = confirm(
     "¿Está seguro de que desea eliminar este usuario?"
@@ -94,23 +93,28 @@ const eliminarUsuario = (id) => {
 
 // update user name and last name with prompt, not ideal but it works
 
-const editarUsuario = (id) => {
-    const usuario = usuarios.find((u) => u.id === id);
-  
-    if (usuario) {
-      const nuevoNombre = prompt("Ingrese el nuevo nombre del usuario", usuario.nombre);
-      const nuevoApellido = prompt("Ingrese el nuevo apellido del usuario", usuario.apellido);
-  
-      if (nuevoNombre && nuevoApellido) {
-        usuario.nombre = nuevoNombre;
-        usuario.apellido = nuevoApellido;
-  
-        localStorage.setItem("usuarios", JSON.stringify(usuarios));
-        mostrarUsuarios();
-      }
-    }
-  };
+// const editarUsuario = (id) => {
+//   const usuario = usuarios.find((u) => u.id === id);
 
+//   if (usuario) {
+//     const nuevoNombre = prompt(
+//       "Ingrese el nuevo nombre del usuario",
+//       usuario.nombre
+//     );
+//     const nuevoApellido = prompt(
+//       "Ingrese el nuevo apellido del usuario",
+//       usuario.apellido
+//     );
+
+//     if (nuevoNombre && nuevoApellido) {
+//       usuario.nombre = nuevoNombre;
+//       usuario.apellido = nuevoApellido;
+
+//       localStorage.setItem("usuarios", JSON.stringify(usuarios));
+//       mostrarUsuarios();
+//     }
+//   }
+// };
 
 //sticky footer function
 
@@ -121,38 +125,75 @@ function isScrolledToBottom() {
   return scrollTop + clientHeight >= scrollHeight;
 }
 
-const footer = document.querySelector('.sticky-footer');
+const footer = document.querySelector(".sticky-footer");
 
-window.addEventListener('scroll', () => {
+window.addEventListener("scroll", () => {
   if (isScrolledToBottom()) {
-    footer.style.display = 'block';
+    footer.style.display = "block";
   } else {
-    footer.style.display = 'none';
+    footer.style.display = "none";
   }
 });
-
 
 // download table as csv
 
 const downloadTableAsCSV = () => {
-  const filename = "usuarios.csv";
-  const rows = Array.from(cuerpoTabla.querySelectorAll("tr"));
-  const csv = rows
-    .map(row => Array.from(row.querySelectorAll("td")).map(td => td.innerText).join(","))
-    .join("\n");
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-  if (navigator.msSaveBlob) {
-    navigator.msSaveBlob(blob, filename);
-  } else {
-    const link = document.createElement("a");
-    if (link.download !== undefined) {
-      const url = URL.createObjectURL(blob);
-      link.setAttribute("href", url);
-      link.setAttribute("download", filename);
-      link.style.visibility = "hidden";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+  const confirmacion = confirm("Deseas descargar la lista?");
+  if (confirmacion) {
+    const filename = "usuarios.csv";
+    const rows = Array.from(cuerpoTabla.querySelectorAll("tr"));
+    const csv = rows
+      .map((row) =>
+        Array.from(row.querySelectorAll("td"))
+          .map((td) => td.innerText)
+          .join(",")
+      )
+      .join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    if (navigator.msSaveBlob) {
+      navigator.msSaveBlob(blob, filename);
+    } else {
+      const link = document.createElement("a");
+      if (link.download !== undefined) {
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", filename);
+        link.style.visibility = "hidden";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
     }
   }
 };
+
+// //segunda funcion edicion
+
+const editarUsuario = (id) => {
+  btnAgregar.style.display = "none";
+  btnEditar.style.display = "inline";
+
+  const usuario = usuarios.find((usuario) => usuario.id === id);
+  idInput.value = usuario.id;
+  nombre.value = usuario.nombre;
+  apellido.value = usuario.apellido;
+};
+
+const confirmarEdicion = () => {
+  const usuario = usuarios.find((usuario) => usuario.id === idInput.value);
+  usuario.nombre = nombre.value;
+  usuario.apellido = apellido.value;
+  localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+  btnAgregar.style.display = "inline";
+  btnEditar.style.display = "none";
+
+  idInput.value = "";
+  nombre.value = "";
+  apellido.value = "";
+
+  mostrarUsuarios();
+};
+
+
+
