@@ -21,6 +21,8 @@ const agregarUsuario = () => {
     usuarios.push(usuario);
   
     localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    nombre.value = "";
+    apellido.value = "";
     mostrarUsuarios();
   };
   
@@ -43,7 +45,7 @@ const mostrarUsuarios = () => {
         <button
         type="button"
         title="Editar"
-        class="btn btn-info"
+        class="btn btn-outline-info"
         onclick="editarUsuario('${usuario.id}')"
         >
         <i class="bi bi-pencil"></i>
@@ -56,7 +58,7 @@ const mostrarUsuarios = () => {
         <button
         title="Eliminar"
         type="button"
-        class="btn btn-danger"
+        class="btn btn-outline-danger"
         onclick="eliminarUsuario('${usuario.id}')"
         >
         <i class="bi bi-trash"></i>
@@ -128,3 +130,29 @@ window.addEventListener('scroll', () => {
     footer.style.display = 'none';
   }
 });
+
+
+// download table as csv
+
+const downloadTableAsCSV = () => {
+  const filename = "usuarios.csv";
+  const rows = Array.from(cuerpoTabla.querySelectorAll("tr"));
+  const csv = rows
+    .map(row => Array.from(row.querySelectorAll("td")).map(td => td.innerText).join(","))
+    .join("\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  if (navigator.msSaveBlob) {
+    navigator.msSaveBlob(blob, filename);
+  } else {
+    const link = document.createElement("a");
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", filename);
+      link.style.visibility = "hidden";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
+};
