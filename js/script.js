@@ -6,13 +6,19 @@ const idInput = document.getElementById("idInput");
 
 const btnAgregar = document.getElementById("btnAgregar");
 const btnEditar = document.getElementById("btnEditar");
-
-//add user
-const agregarUsuario = () => {
+// check empty fields 
+const checkEmpty = () => {
   if (nombre.value.trim() === "" || apellido.value.trim() === "") {
     alert("Por favor ingrese un nombre y un apellido para el usuario.");
     return;
   }
+}
+
+
+
+//add user
+const agregarUsuario = () => {
+  checkEmpty()
 
   const usuario = {
     id: crypto.randomUUID(),
@@ -180,6 +186,8 @@ const editarUsuario = (id) => {
 };
 
 const confirmarEdicion = () => {
+  checkEmpty()
+
   const usuario = usuarios.find((usuario) => usuario.id === idInput.value);
   usuario.nombre = nombre.value;
   usuario.apellido = apellido.value;
